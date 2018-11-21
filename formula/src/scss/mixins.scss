@@ -59,8 +59,12 @@ $wide: 1200px;
                 }
                 td{
                     padding: $cell-padding;
+                    font-size: 20px;
+                    
                     .material-icons{
-                        font-size: 14px;
+                        border: 1px solid #AAA;
+                        border-radius: 4px;
+                        padding: 4px;
                         color: #AAA;
                         cursor: pointer;
                         &:hover{
@@ -70,9 +74,13 @@ $wide: 1200px;
                             color: $primary-color;
                         }
                     }
+                    @include phone{
+                        text-align: center;
+                    }
                     @include tablet{
                         font-size: 13px;
                         padding: 8px 3px;
+                        border: none;
                     }
                     @include desktop{
                         font-size: 14px;

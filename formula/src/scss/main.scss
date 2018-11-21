@@ -16,6 +16,18 @@ $default-space: 15px;
     visibility: hidden;
 }
 
+.hide-mobile{
+    @include phone{
+        display: none;
+    }
+}
+
+.visible-mobile{
+    @include tablet{
+        display: none;
+    }
+}
+
 .clearfix{
     clear: both;
     &.mobile{
@@ -130,20 +142,22 @@ body{
                     float: right;
                     color: #FFF;
                 }
-                nav {
+                #main {
                     position: absolute;
                     width: 100%;
                     background-color: $primary-color;
                     margin-left: -10px;
+                    top:43px;
                     height: 0px;
                     overflow: hidden;
+                    border-top: 1px solid #FFF;
                     ul{
                         text-align: center;
                         clear: both;
-                        margin-top: 1em;
+                        
                         li{
                             
-                            padding: 0.4em;
+                            padding: 0.3em;
                             a, .material-icons.md-light{
                                 color: #FFF;
                                 text-decoration: none;
@@ -183,6 +197,7 @@ body{
                     padding: $default-space;
                     text-align: center;
                     margin-left: -200vw;
+                    margin-top: 1em;
                     animation: slideRight 1s ease 0.5s forwards;
                     @keyframes slideRight{
                         0%{
@@ -198,10 +213,12 @@ body{
                     .mobile-menu{
                         display: none;
                     }
-                    nav{ 
+                    #main{ 
+                        border-top: none;
                         ul{
                             margin-top: 0;
                             li{
+                                padding: 0.4em;
                                 display: inline-block;
                                 .material-icons{
                                     display: none;
@@ -236,7 +253,7 @@ body{
                     img{
                         float: none;
                     }
-                    nav ul{
+                    #main ul{
                         margin-top: 1em;
                         li{
                             padding: 0.4em 0;
@@ -264,16 +281,17 @@ body{
             }
             .content{
                 box-sizing: border-box;
-                
                 opacity: 0;
-                
+                border-top: 1px solid #FFF;
                 section{
                     h2{
-                        font-size: 24px;
+                        font-size: 20px;
                         text-transform: uppercase;
                         color: #FFF;
-                        padding-bottom: 2vh;
                         text-align: center;
+                        position: absolute;
+                        top: 12px;
+                        left: 130px;
                     }
                     > div{
                         
@@ -286,11 +304,15 @@ body{
                 @include tablet{
                     display: block;
                     width: 100%;
+                    border-top:  none;
                     section{
                         margin: $default-space;
                         h2{
                             font-size: 22px;
                             padding-bottom: 20px;
+                            position: static;
+                            top: auto;
+                            left: auto;
                         }
                         > div{
                             overflow: auto;

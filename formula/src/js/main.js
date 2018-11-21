@@ -85,10 +85,10 @@ function renderSeason(races){
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Date</th>
-                                <th>Location</th>
-                                <th>Circuit</th>
-                                <th>Winner</th>
+                                <th class="hide-mobile">Date</th>
+                                <th class="hide-mobile">Location</th>
+                                <th class="hide-mobile">Circuit</th>
+                                <th class="hide-mobile">Winner</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -111,20 +111,20 @@ function toggleFavorites(){
         favorites = localStorage.getObj("favorites"),
         favouritesStatus = "remove",
         btnFavoriteList = document.getElementById("showFavorites");
-    
-    if(checkFavorites(season, race)){
-        favorites[season].splice(favorites[season].indexOf(race), 1);
-        if(favorites[season].length == 0) delete favorites[season];
-        favouritesStatus = "add";
-    }else{
-        if(!favorites.hasOwnProperty(season)) favorites[season] = [];
-        favorites[season].push(race);
+    if(event.target.innerHTML == "favorite"){
+        if(checkFavorites(season, race)){
+            favorites[season].splice(favorites[season].indexOf(race), 1);
+            if(favorites[season].length == 0) delete favorites[season];
+            favouritesStatus = "add";
+        }else{
+            if(!favorites.hasOwnProperty(season)) favorites[season] = [];
+            favorites[season].push(race);
+        }
+        
+        localStorage.setObj("favorites", favorites);
+        event.target.className = `material-icons ${favouritesStatus}`;
+        Object.keys(favorites).length > 0 ? btnFavoriteList.classList.remove('hidden') : btnFavoriteList.classList.add('hidden');
     }
-    
-    
-    localStorage.setObj("favorites", favorites);
-    event.target.innerHTML = `<i class="material-icons ${favouritesStatus}"  data-season="${season}" data-race="${race}">favorite</i>`;
-    Object.keys(favorites).length > 0 ? btnFavoriteList.classList.remove('hidden') : btnFavoriteList.classList.add('hidden');
 }
 
 function checkFavorites(season, race){
@@ -154,10 +154,10 @@ function renderFavorites(){
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th>Date</th>
-                                <th>Location</th>
-                                <th>Circuit</th>
-                                <th>Winner</th>
+                                <th class="hide-mobile">Date</th>
+                                <th class="hide-mobile">Location</th>
+                                <th class="hide-mobile">Circuit</th>
+                                <th class="hide-mobile">Winner</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -184,14 +184,15 @@ function seasonListTemplate(race){
     html = `
                 <tr>
                     <td class="text-center">
-                        <span class="hide-favorites">${race.round}</span>
-                        <span class="hide-season">${race.season}</span>
+                        <span class="hide-favorites hide-mobile">${race.round}</span>
+                        <span class="hide-season hide-mobile">${race.season}</span>
+                        <i class="material-icons visible-mobile">info</i>
                     </td>
                     <td>${race.raceName}</td>
-                    <td>${formatDate(race.date)}</td>
-                    <td>${race.Circuit.Location.locality}, ${race.Circuit.Location.country}</td>
-                    <td>${race.Circuit.circuitName}</td>
-                    <td>${race.Results[0].Driver.givenName} ${race.Results[0].Driver.familyName}, ${race.Results[0].Constructor.name}</td>
+                    <td class="hide-mobile">${formatDate(race.date)}</td>
+                    <td class="hide-mobile">${race.Circuit.Location.locality}, ${race.Circuit.Location.country}</td>
+                    <td class="hide-mobile">${race.Circuit.circuitName}</td>
+                    <td class="hide-mobile">${race.Results[0].Driver.givenName} ${race.Results[0].Driver.familyName}, ${race.Results[0].Constructor.name}</td>
                     <td><i class="material-icons ${favouritesStatus}" data-season="${race.season}" data-race="${race.round}">favorite</i></td>
                 </tr>`;
     return html;
@@ -205,11 +206,10 @@ function formatDate(strDate){
         return `${day} ${months[objDate.getMonth()]}`
 }
 
-function toggleMobileMenu(){
-    console.log(document.getElementById("mobileMenu").style.display);
-    
+function toggleMobileMenu(){    
     if(document.getElementById("mobileMenu").style.display != "none"){
         let mainMenu = document.getElementById("main");
+        console.log(mainMenu.style.height);
         if(parseInt(mainMenu.style.height) == 0){
             mainMenu.style.height = "auto";
         }else{
@@ -228,5 +228,6 @@ window.onload = () => {
         return JSON.parse(this.getItem(key))
     }
     document.getElementById("showFavorites").addEventListener('click', renderFavorites);
+    document.getElementById("main").style.height = "0px";
     document.getElementById("mobileMenu").addEventListener('click', toggleMobileMenu);
 };
